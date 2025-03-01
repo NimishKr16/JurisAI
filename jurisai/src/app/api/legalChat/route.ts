@@ -1,47 +1,46 @@
 import { HfInference } from "@huggingface/inference";
-import { log } from "console";
 import { NextResponse } from "next/server";
 
 const hf = new HfInference(process.env.HUGGINGFACE_API_KEY);
 
 // TODO: Restrict the AI to legal queries 
+// ! DO NOT REMOVE ANY COMMENTED CODE!
+// const legalCategories = [
+//     "Legal",
+//     "Criminal Law",
+//     "Corporate Law",
+//     "Family Law",
+//     "Constitutional Law",
+//     "Intellectual Property Law",
+//     "Taxation Law",
+//     "Labor & Employment Law",
+//     "Human Rights Law",
+//     // "International Law",
+//   ];
 
-const legalCategories = [
-    "Legal",
-    "Criminal Law",
-    "Corporate Law",
-    "Family Law",
-    "Constitutional Law",
-    "Intellectual Property Law",
-    "Taxation Law",
-    "Labor & Employment Law",
-    "Human Rights Law",
-    // "International Law",
-  ];
-
-const classifyQuery = async (text: string) => {
-    const response = await fetch("https://api-inference.huggingface.co/models/facebook/bart-large-mnli", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        inputs: text,
-        parameters: {
-            candidate_labels: legalCategories.concat(["Non-Legal"]),
-            multi_label: false,
-            hypothesis_template: "This question is related to {} law.",
-          },
-      }),
-    });
-    const data = await response.json();
-    console.log(data);
+// const _classifyQuery = async (text: string) => {
+//     const response = await fetch("https://api-inference.huggingface.co/models/facebook/bart-large-mnli", {
+//       method: "POST",
+//       headers: {
+//         "Authorization": `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         inputs: text,
+//         parameters: {
+//             candidate_labels: legalCategories.concat(["Non-Legal"]),
+//             multi_label: false,
+//             hypothesis_template: "This question is related to {} law.",
+//           },
+//       }),
+//     });
+//     const data = await response.json();
+//     console.log(data);
     
-    const isLegal = data?.labels?.some((label: any, index: number) => legalCategories.includes(label) && data?.scores?.[index] > 0.4);
+//     const isLegal = data?.labels?.some((label: string, index: number) => legalCategories.includes(label) && data?.scores?.[index] > 0.4);
 
-    return isLegal;
-  };
+//     return isLegal;
+//   };
 
   
 export async function POST(req: Request) {

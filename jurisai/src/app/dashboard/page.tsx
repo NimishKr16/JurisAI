@@ -4,7 +4,7 @@ import { TextField, Button, Container, Typography, CircularProgress, Box } from 
 
 export default function LegalChat() {
   const [prompt, setPrompt] = useState("");
-  const [response, setResponse] = useState("");
+//   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<{ type: "user" | "ai"; text: string }[]>([]);
 
