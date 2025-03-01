@@ -1,5 +1,6 @@
 import { clerkMiddleware } from '@clerk/nextjs/server'
 
+// TODO : Protect /dashboard route with Clerk
 export default clerkMiddleware()
 
 export const config = {
