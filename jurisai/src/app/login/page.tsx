@@ -1,5 +1,9 @@
 import { SignIn } from '@clerk/nextjs'
 
 export default function Page() {
-  return <SignIn routing='hash'/>
+  return (
+    <div className="flex justify-center items-center h-screen">
+      <SignIn routing="hash" fallbackRedirectUrl="/dashboard" />
+    </div>
+  );
 }
