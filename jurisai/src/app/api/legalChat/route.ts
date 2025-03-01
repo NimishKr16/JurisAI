@@ -61,7 +61,7 @@ export async function POST(req: Request) {
         model: "meta-llama/Meta-Llama-3-8B-Instruct", 
         inputs: prompt,
         parameters: {
-            max_new_tokens: 500, // Reduce token count to minimize generation time
+            // max_new_tokens: 500, // Reduce token count to minimize generation time
             temperature: 0.3, // Lower randomness for more deterministic responses
             top_k: 20, // Lower vocabulary choices for quick processing
             top_p: 0.9, // Balanced probability sampling (keeps quality intact)
