@@ -35,14 +35,14 @@ export default function Navbar() {
         </div>
 
         {/* Center - Desktop Links */}
-        <div className="hidden md:flex gap-6">
+        {/* <div className="hidden md:flex gap-6">
           <Button color="inherit" component={Link} href="/askJuris">
             Chat
           </Button>
           <Button color="inherit" component={Link} href="/summarize">
             Summarizer
           </Button>
-        </div>
+        </div> */}
 
         {/* Right - User Info & Logout */}
         <div className="flex items-center gap-4">
@@ -77,12 +77,12 @@ export default function Navbar() {
               JurisAI
             </Typography>
           </ListItem>
-          <ListItemButton component={Link} href="/askJuris" onClick={toggleDrawer}>
+          {/* <ListItemButton component={Link} href="/askJuris" onClick={toggleDrawer}>
             Chat
           </ListItemButton>
           <ListItemButton component={Link} href="/summarize" onClick={toggleDrawer}>
             Summarizer
-          </ListItemButton>
+          </ListItemButton> */}
           {user && (
             <ListItemButton onClick={handleLogout} sx={{ color: "#f55036" }}>
               <LogoutIcon sx={{ marginRight: 1 }} />

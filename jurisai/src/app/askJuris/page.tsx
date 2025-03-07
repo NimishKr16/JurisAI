@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { CircularProgress, Typography, Box, Button } from "@mui/material";
 import * as pdfjsLib from 'pdfjs-dist'; // Import PDF processing library
 import Tooltip from '@mui/material/Tooltip';
+import { LinearGradient } from 'react-text-gradients';
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.111/pdf.worker.min.js`;
 
 
@@ -52,16 +53,15 @@ export default function Chat() {
 
   const handleSubmitWithFile = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(documentText)
-    console.log(input.trim());
     
     const inputWithDoc = documentText
-    ? `Document Context: ${documentText}\n\nUser Query: ${input}`
+    ? `Document Context: ${documentText}\n\nMy Query: ${input}`
     : input;
 
   // Set the input value to include document context before submitting
   handleInputChange({ target: { value: inputWithDoc } } as React.ChangeEvent<HTMLInputElement>);
 
+  
   // Submit the form
   handleSubmit();
   };
@@ -79,8 +79,18 @@ export default function Chat() {
    if (!user) return null;
 
   return (
+    
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+  
   <div className="mx-auto w-full max-w-2xl py-8 px-6">
+  <div className='mb-20 text-center'>
+    <Typography variant="h2" fontWeight="bold" gutterBottom>
+            <LinearGradient gradient={['to left', '#3F51B5 ,#FFD700']}>
+            JurisAI ⚖️
+            </LinearGradient>
+            </Typography>
+    
+  </div>
     <div className="space-y-4 mb-4 max-h-[60vh] overflow-y-auto scrollbar-hide">
       {messages.map(m => (
         <div 
