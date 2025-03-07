@@ -6,6 +6,7 @@ import ChatIcon from "@mui/icons-material/Chat"; // Chatbot Icon
 import DescriptionIcon from "@mui/icons-material/Description"; // Document Analysis Icon
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { LinearGradient } from 'react-text-gradients'
 // Dark Theme
 const darkTheme = createTheme({
   palette: {
@@ -68,10 +69,15 @@ export default function Home() {
           Get Started
         </Button>
       </Box>
-
+        
       {/* Hero Section */}
       <Container maxWidth="md">
         <motion.div initial="hidden" animate="visible" variants={fadeInUp}>
+          <Typography variant="h2" fontWeight="bold" gutterBottom>
+          <LinearGradient gradient={['to left', '#3F51B5 ,#FFD700']}>
+          JurisAI ⚖️
+          </LinearGradient>
+          </Typography>
           <Typography variant="h2" fontWeight="bold" gutterBottom>
             Your AI-Powered Legal Assistant
           </Typography>
