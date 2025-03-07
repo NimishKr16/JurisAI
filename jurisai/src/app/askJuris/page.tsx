@@ -1,6 +1,6 @@
 'use client';
 
-import { useChat } from 'ai/react';
+import { useChat } from '@ai-sdk/react';
 
 export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat();
@@ -23,7 +23,7 @@ export default function Chat() {
                 `}
               >
                 <div className="text-xs text-gray-500 mb-1">
-                  {m.role === 'user' ? 'You' : 'Llama 3.3 70B powered by Groq'}
+                  {m.role === 'user' ? 'You' : 'JurisAI powered by Groq'}
                 </div>
                 <div className="text-sm whitespace-pre-wrap">
                   {m.content}
