@@ -4,7 +4,7 @@ import { useChat } from '@ai-sdk/react';
 import { useAuth } from "@/context/AuthContext";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { CircularProgress, Typography, Box, Button } from "@mui/material";
 import * as pdfjsLib from 'pdfjs-dist'; // Import PDF processing library
 import Tooltip from '@mui/material/Tooltip';
@@ -18,7 +18,15 @@ export default function Chat() {
   const [fileName, setFileName] = useState<string | null>(null);
   const [documentText, setDocumentText] = useState<string | null>(null);
   const router = useRouter();
-  
+
+  // Get reference to messages container
+  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  }, [messages]); // Auto-scrolls when messages update
 
   useEffect(() => {
     if (!loading && !user) {
@@ -80,76 +88,78 @@ export default function Chat() {
 
   return (
     
-    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+  <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
   
-  <div className="mx-auto w-full max-w-2xl py-8 px-6">
-  <div className='mb-20 text-center'>
-    <Typography variant="h2" fontWeight="bold" gutterBottom>
-            <LinearGradient gradient={['to left', '#3F51B5 ,#FFD700']}>
-            JurisAI ⚖️
-            </LinearGradient>
-            </Typography>
-    
-  </div>
-    <div className="space-y-4 mb-4 max-h-[60vh] overflow-y-auto scrollbar-hide">
-      {messages.map(m => (
-        <div 
-          key={m.id} 
-          className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
-        >
+    <div className="mx-auto w-full max-w-2xl py-8 px-6">
+      <div className='mb-20 text-center'>
+        <Typography variant="h2" fontWeight="bold" gutterBottom>
+          <LinearGradient gradient={['to left', '#3F51B5 ,#FFD700']}>
+          JurisAI ⚖️
+          </LinearGradient>
+        </Typography>  
+      </div>
+
+      <div 
+      ref={messagesContainerRef}
+      className="space-y-4 mb-4 max-h-[60vh] overflow-y-auto scrollbar-hide">
+        {messages.map(m => (
           <div 
-            className={`
-              max-w-[80%] rounded-lg px-4 py-2 shadow-lg
-              ${m.role === 'user' 
-                ? 'bg-gray-700 text-white' 
-                : 'bg-gray-800 text-gray-300'}
-            `}
+            key={m.id} 
+            className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
-            <div className="text-xs text-gray-400 mb-1">
-              {m.role === 'user' ? 'You' : 'JurisAI powered by Groq'}
-            </div>
-            <div className="text-sm whitespace-pre-wrap">
-              {m.content}
+            <div 
+              className={`
+                max-w-[80%] rounded-lg px-4 py-2
+                ${m.role === 'user' 
+                  ? 'bg-gray-700 text-white' 
+                  : 'bg-gray-900 text-gray-300'}
+              `}
+            >
+              <div className="text-xs text-gray-400 mb-1">
+                {m.role === 'user' ? 'You' : 'JurisAI powered by Groq'}
+              </div>
+              <div className="text-sm whitespace-pre-wrap">
+                {m.content}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
-
-    <form onSubmit={handleSubmitWithFile} className="space-y-4">
-      <div className="flex gap-3">
-        <input
-          value={input}
-          onChange={handleInputChange}
-          placeholder="Type your message..."
-          className="flex-1 rounded-lg border border-gray-700 bg-gray-800 text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-md"
-        />
-        <button 
-          type="submit"
-          className="rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-2 text-white font-semibold hover:opacity-90 shadow-lg transition-all"
-        >
-          Send
-        </button>
+        ))}
       </div>
-      
-      {/* File Upload */}
-      <div className="flex justify-center">
-        <Tooltip title= "Upload Document to Summarize">
 
-        <label className="cursor-pointer bg-gray-800 hover:bg-gray-700 px-5 py-2 rounded-lg text-sm font-medium text-gray-300 transition-all shadow-md">
-        {fileName ? fileName : "Upload Document"}
+      <form onSubmit={handleSubmitWithFile} className="space-y-4">
+        <div className="flex gap-3">
           <input
-            type="file"
-            accept=".txt,.md,.json,.csv,.pdf"
-            onChange={handleFileUpload}
-            className="hidden"
-            />
-        </label>
-            </Tooltip>
-      </div>
-    </form>
+            value={input}
+            onChange={handleInputChange}
+            placeholder="Type your message..."
+            className="flex-1 rounded-lg border border-gray-700 bg-gray-800 text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-md"
+          />
+          <button 
+            type="submit"
+            className="rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-2 text-white font-semibold hover:opacity-90 shadow-lg transition-all"
+          >
+            Send
+          </button>
+        </div>
+
+        {/* File Upload */}
+        <div className="flex justify-center">
+          <Tooltip title= "Upload Document to Summarize">
+
+          <label className="cursor-pointer bg-gray-800 hover:bg-gray-700 px-5 py-2 rounded-lg text-sm font-medium text-gray-300 transition-all shadow-md">
+          {fileName ? fileName : "Upload Document"}
+            <input
+              type="file"
+              accept=".txt,.md,.json,.csv,.pdf"
+              onChange={handleFileUpload}
+              className="hidden"
+              />
+          </label>
+              </Tooltip>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
   );
 };
 

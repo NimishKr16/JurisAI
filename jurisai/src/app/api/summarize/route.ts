@@ -1,6 +1,11 @@
 import { groq } from "@ai-sdk/groq";
 import { generateText, streamText } from "ai";
 
+// Ensure the API key is loaded from the environment
+if (!process.env.GROQ_API_KEY) {
+  throw new Error("GROQ_API_KEY is missing. Add it to your .env.local file.");
+}
+
 // Allow streaming responses up to 60 seconds for larger documents
 export const maxDuration = 60;
 
