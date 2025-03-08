@@ -12,6 +12,10 @@ export default function Navbar() {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const goToHome = () => {
+    router.push("/");
+  };
+
   const handleLogout = async () => {
     await logout();
     router.push("/login");
@@ -30,7 +34,10 @@ export default function Navbar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className="font-bold text-[#f55036]">
-            JurisAI
+            <button onClick={goToHome} className="cursor-pointer">
+              JurisAI
+            </button>
+            
           </Typography>
         </div>
 
