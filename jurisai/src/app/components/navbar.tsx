@@ -4,13 +4,26 @@ import { useAuth } from "@/context/AuthContext";
 import { AppBar, Toolbar, Typography, Button, IconButton, Drawer, List, ListItem, ListItemButton } from "@mui/material";
 import { Menu as MenuIcon, Logout as LogoutIcon } from "@mui/icons-material";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useChat } from '@ai-sdk/react';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [chatTitles, setChatTitles] = useState<string[]>([]);
+  const { messages, setMessages } = useChat();
+
+  useEffect(() => {
+    const storedTitles = JSON.parse(localStorage.getItem("chatTitles") || "[]");
+    setChatTitles(storedTitles);
+  }, []);
+
+  const handleChatSelect = (title: string) => {
+    router.push(`/chat?title=${encodeURIComponent(title)}`);
+  };
+  
 
   const goToHome = () => {
     router.push("/");
@@ -90,6 +103,23 @@ export default function Navbar() {
           <ListItemButton component={Link} href="/summarize" onClick={toggleDrawer}>
             Summarizer
           </ListItemButton> */}
+          
+          {/* <div className="px-4 py-1 text-gray-300"> I slide into view </div>
+          <div className="px-4 py-1 text-gray-300"> Me Too! </div>
+          <div className="px-4 py-1 text-gray-300"> Me Three! </div> */}
+
+          {/* Dynamically Render Chat Titles */}
+          {chatTitles.length > 0 ? (
+            chatTitles.map((title, index) => (
+              <ListItemButton key={index} onClick={() => handleChatSelect(title)}>
+                {title}
+              </ListItemButton>
+            ))
+          ) : (
+            <Typography className="px-4 py-1 text-gray-300">No chats yet</Typography>
+          )}
+        </List>
+        <List sx={{ width: 250, backgroundColor: "#1a1a1a", height: "5", color: "white" }}>
           {user && (
             <ListItemButton onClick={handleLogout} sx={{ color: "#f55036" }}>
               <LogoutIcon sx={{ marginRight: 1 }} />

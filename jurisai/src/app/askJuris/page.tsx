@@ -10,15 +10,16 @@ import * as pdfjsLib from 'pdfjs-dist'; // Import PDF processing library
 import Tooltip from '@mui/material/Tooltip';
 import { LinearGradient } from 'react-text-gradients';
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.111/pdf.worker.min.js`;
-
+import { FaEdit } from "react-icons/fa";
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, handleInputChange, handleSubmit, setMessages } = useChat();
   const { user, logout, loading } = useAuth();
   const [fileName, setFileName] = useState<string | null>(null);
   const [documentText, setDocumentText] = useState<string | null>(null);
   const router = useRouter();
-
+  const [chatTitles, setChatTitles] = useState<string[]>([]);
+  
   // Get reference to messages container
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -53,25 +54,61 @@ export default function Chat() {
   
       setDocumentText(text); // Store extracted text
     } else {
-      // ✅ Handle text files (same as before)
       reader.onload = (e) => setDocumentText(e.target?.result as string);
       reader.readAsText(file);
     }
   };
 
-  const handleSubmitWithFile = (event: React.FormEvent) => {
+  const saveChatTitle = async (messages: any[]) => {
+    try {
+      const response = await fetch("/api/chat-title", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages }),
+      });
+  
+      if (!response.ok) {
+        console.error("Failed to fetch chat title");
+        return;
+      }
+  
+      const data = await response.json();
+      const newTitle = data.title;
+  
+      // Get existing titles from local storage
+      const storedTitles = JSON.parse(localStorage.getItem("chatTitles") || "[]");
+  
+      const updatedTitles = storedTitles.includes(newTitle) ? storedTitles : [newTitle, ...storedTitles];
+  
+      // Save updated titles
+      localStorage.setItem("chatTitles", JSON.stringify(updatedTitles));
+
+      setChatTitles(updatedTitles); 
+    } catch (error) {
+      console.error("Error saving chat title:", error);
+    }
+  };  
+   
+
+  const handleSubmitWithFile = async (event: React.FormEvent) => {
     event.preventDefault();
     
     const inputWithDoc = documentText
     ? `Document Context: ${documentText}\n\nMy Query: ${input}`
     : input;
 
-  // Set the input value to include document context before submitting
-  handleInputChange({ target: { value: inputWithDoc } } as React.ChangeEvent<HTMLInputElement>);
+    // Set the input value to include document context before submitting
+    handleInputChange({ target: { value: inputWithDoc } } as React.ChangeEvent<HTMLInputElement>);
+    
+    
+    // Submit the form
+    handleSubmit();
 
-  
-  // Submit the form
-  handleSubmit();
+    try {
+      await saveChatTitle(messages);
+    } catch (error) {
+      console.error("Error saving chat title:", error);
+    }
   };
 
    // Show a loading indicator while checking auth state
@@ -86,11 +123,29 @@ export default function Chat() {
    // Render only if logged in
    if (!user) return null;
 
+   // Function to reset chat
+  const handleNewChat = () => {
+    setMessages([]); // Clear chat history
+    setFileName(null); // Reset uploaded file state
+    setDocumentText(null); // Reset document text
+  };
+
   return (
     
   <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
   
     <div className="mx-auto w-full max-w-2xl py-8 px-6">
+      {/* New Chat Button */}
+      <div className="flex justify-end mb-4">
+          <button 
+            onClick={handleNewChat} 
+            className="p-3 rounded-full text-[#818181] transition-all flex items-center justify-center cursor-pointer"
+            title="Start New Chat"
+          >
+            <FaEdit size={24} />
+          </button>
+      </div>
+      
       <div className='mb-20 text-center'>
         <Typography variant="h2" fontWeight="bold" gutterBottom>
           <LinearGradient gradient={['to left', '#3F51B5 ,#FFD700']}>
@@ -162,6 +217,3 @@ export default function Chat() {
   </div>
   );
 };
-
-  
-

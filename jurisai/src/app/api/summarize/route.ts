@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       {
         role: "system",
         content:
-          "You are an AI legal assistant specializing in document summarization. Provide concise yet detailed summaries of legal documents while preserving key details.",
+          "You are an AI legal assistant specializing in document summarization. Provide concise yet detailed summaries of legal documents while preserving key details with respect to constitiution of India only.",
       },
       { role: "user", content: `Summarize this document:\n\n${document}` },
     ];
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
         {
           role: "system",
           content:
-            "You are an AI legal assistant specializing in document summarization. Provide concise yet detailed summaries of legal documents while preserving key details.",
+            "You are an AI legal assistant specializing in document summarization. Provide concise yet detailed summaries of legal documents while preserving key details with respect to constitiution of India only.",
         },
         { role: "user", content: `Summarize this document:\n\n${document}` },
       ]
