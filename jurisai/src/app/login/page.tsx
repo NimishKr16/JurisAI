@@ -37,6 +37,29 @@ const LoginPage = () => {
         color: "#E0E0E0", // Light gray text for readability
       }}
     >
+      <Box sx={{ position: "absolute", top: 90, right: 30 }}>
+        <motion.div whileHover={{ scale: 1.05 }}>
+          <Tooltip title="Chats won't be saved">
+            <Button
+              startIcon={<Eye size={22} />}
+              variant="contained"
+              onClick={() => router.push("/guestMode")}
+              sx={{
+                backgroundColor: "lightblue",
+                color: "black",
+                padding: "12px 20px",
+                fontSize: "16px",
+                fontWeight: "bold",
+                borderRadius: "8px",
+                textTransform: "none",
+                "&:hover": { backgroundColor: "#388E3C" },
+              }}
+            >
+              Guest Mode
+            </Button>
+          </Tooltip>
+        </motion.div>
+      </Box>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -76,7 +99,7 @@ const LoginPage = () => {
         </motion.div>
         <motion.div className="mt-4" whileHover={{ scale: 1.05 }}>
           <Button
-          startIcon={<Briefcase size={22} />}
+            startIcon={<Briefcase size={22} />}
             variant="contained"
             onClick={() => setOpenLawyerModal(true)}
             sx={{
@@ -93,33 +116,12 @@ const LoginPage = () => {
             Join as a Lawyer
           </Button>
         </motion.div>
-
-        <motion.div whileHover={{ scale: 1.05 }}>
-        <Tooltip title="Chats won't be saved">
-            <Button
-            startIcon={<Eye size={22} />}
-              variant="contained"
-              onClick={() => router.push("/guestMode")}
-              sx={{
-                backgroundColor: "lightblue", // Matching theme green
-                color: "black",
-                padding: "12px 20px",
-                fontSize: "16px",
-                fontWeight: "bold",
-                borderRadius: "8px",
-                textTransform: "none",
-                marginTop: "16px",
-                "&:hover": { backgroundColor: "#388E3C" }, // Slightly darker green on hover
-              }}
-            >
-              Guest Mode
-            </Button>
-          </Tooltip>
-        </motion.div>
-        
       </motion.div>
-       {/* Lawyer Authentication Modal */}
-       <LawyerAuthModal open={openLawyerModal} onClose={() => setOpenLawyerModal(false)} />
+      {/* Lawyer Authentication Modal */}
+      <LawyerAuthModal
+        open={openLawyerModal}
+        onClose={() => setOpenLawyerModal(false)}
+      />
     </Container>
   );
 };

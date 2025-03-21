@@ -224,10 +224,11 @@ export default function LawyerAuthModal({
               "&:hover": { backgroundColor: "#388E3C" },
             }}
             onClick={handleSubmit}
-            disabled={
-              isSignUp &&
-              (!email || !password || !specialization || !barId || !isVerified)
-            }
+            disabled
+            // disabled={
+            //   isSignUp &&
+            //   (!email || !password || !specialization || !barId || !isVerified)
+            // }
           >
             {isSignUp ? "Sign Up" : "Login"}
           </Button>

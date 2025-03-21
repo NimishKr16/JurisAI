@@ -90,19 +90,12 @@ export default function Home() {
               Start Free Consultation
             </Button> 
           </motion.div>
-          {/* <motion.div whileHover={{ scale: 1.05 }}>
-            <Tooltip title="We do not save your chats">
-              <Button onClick={() => router.push("/askJuris")}
+            <Button 
+            disabled
+              // onClick={() => router.push("/askJuris")}
                variant="contained" color="primary" size="large" sx={{ mt: 3 }}>
-                Temporary Session
-              </Button> 
-            </Tooltip>
-          </motion.div> */}
-          <Button 
-            // onClick={() => router.push("/askJuris")}
-             variant="contained" color="primary" size="large" sx={{ mt: 3 }}>
-              Hire A Lawyer
-            </Button>
+                Hire A Lawyer
+              </Button>
         </motion.div>
       </Container>
 
