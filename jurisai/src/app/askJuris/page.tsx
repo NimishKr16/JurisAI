@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { CircularProgress, Typography, Box, Button } from "@mui/material";
 import * as pdfjsLib from "pdfjs-dist"; // Import PDF processing library
 import Tooltip from "@mui/material/Tooltip";
+import { useRef } from "react"; // Import useRef
 import { LinearGradient } from "react-text-gradients";
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.111/pdf.worker.min.js`;
 
@@ -17,12 +18,24 @@ export default function Chat() {
   const [fileName, setFileName] = useState<string | null>(null);
   const [documentText, setDocumentText] = useState<string | null>(null);
   const router = useRouter();
-
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!loading && !user) {
       router.push("/login"); // Redirect only when Firebase has finished checking auth
     }
   }, [user, router, loading]);
+
+  useEffect(() => {
+    if (messages.length === 0) return; // Avoid unnecessary scrolling
+  
+    const timeout = setTimeout(() => {
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+      }
+    }, 100); // Small delay to allow rendering
+  
+    return () => clearTimeout(timeout); // Cleanup timeout
+  }, [messages]);
 
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -114,6 +127,7 @@ export default function Chat() {
               </div>
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
 
         <form onSubmit={handleSubmitWithFile} className="space-y-4">

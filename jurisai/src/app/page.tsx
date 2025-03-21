@@ -88,8 +88,13 @@ export default function Home() {
             <Button onClick={() => router.push("/askJuris")}
              variant="contained" color="primary" size="large" sx={{ mt: 3 }}>
               Start Free Consultation
-            </Button>
+            </Button> 
           </motion.div>
+          <Button 
+            // onClick={() => router.push("/askJuris")}
+             variant="contained" color="primary" size="large" sx={{ mt: 3 }}>
+              Hire A Lawyer
+            </Button>
         </motion.div>
       </Container>
 
