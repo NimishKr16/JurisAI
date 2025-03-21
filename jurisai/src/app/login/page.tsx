@@ -9,6 +9,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Briefcase } from "lucide-react";
 import LawyerAuthModal from "../components/LawyerAuthModal";
 import { useState } from "react";
+import { Eye } from "lucide-react";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -96,17 +97,18 @@ const LoginPage = () => {
         <motion.div whileHover={{ scale: 1.05 }}>
         <Tooltip title="Chats won't be saved">
             <Button
+            startIcon={<Eye size={22} />}
               variant="contained"
               onClick={() => router.push("/guestMode")}
               sx={{
-                backgroundColor: "lightgreen", // Matching theme green
+                backgroundColor: "lightblue", // Matching theme green
                 color: "black",
                 padding: "12px 20px",
                 fontSize: "16px",
                 fontWeight: "bold",
                 borderRadius: "8px",
                 textTransform: "none",
-                marginTop: "24px",
+                marginTop: "16px",
                 "&:hover": { backgroundColor: "#388E3C" }, // Slightly darker green on hover
               }}
             >
