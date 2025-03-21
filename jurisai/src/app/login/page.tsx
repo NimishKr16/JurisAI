@@ -3,7 +3,7 @@
 import { auth } from "@/lib/firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { Box, Button, Typography, Container } from "@mui/material";
+import { Box, Button, Typography, Container, Tooltip } from "@mui/material";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 
@@ -69,6 +69,29 @@ const LoginPage = () => {
             Sign in with Google
           </Button>
         </motion.div>
+
+        <motion.div whileHover={{ scale: 1.05 }}>
+        <Tooltip title="Chats won't be saved">
+            <Button
+              variant="contained"
+              onClick={() => router.push("/guestMode")}
+              sx={{
+                backgroundColor: "lightgreen", // Matching theme green
+                color: "black",
+                padding: "12px 20px",
+                fontSize: "16px",
+                fontWeight: "bold",
+                borderRadius: "8px",
+                textTransform: "none",
+                marginTop: "24px",
+                "&:hover": { backgroundColor: "#388E3C" }, // Slightly darker green on hover
+              }}
+            >
+              Guest Mode
+            </Button>
+          </Tooltip>
+        </motion.div>
+        
       </motion.div>
     </Container>
   );

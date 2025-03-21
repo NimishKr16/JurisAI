@@ -1,5 +1,5 @@
 'use client';
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography, Tooltip } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import GavelIcon from "@mui/icons-material/Gavel"; // Law Icon
 import ChatIcon from "@mui/icons-material/Chat"; // Chatbot Icon
@@ -90,6 +90,14 @@ export default function Home() {
               Start Free Consultation
             </Button> 
           </motion.div>
+          {/* <motion.div whileHover={{ scale: 1.05 }}>
+            <Tooltip title="We do not save your chats">
+              <Button onClick={() => router.push("/askJuris")}
+               variant="contained" color="primary" size="large" sx={{ mt: 3 }}>
+                Temporary Session
+              </Button> 
+            </Tooltip>
+          </motion.div> */}
           <Button 
             // onClick={() => router.push("/askJuris")}
              variant="contained" color="primary" size="large" sx={{ mt: 3 }}>
