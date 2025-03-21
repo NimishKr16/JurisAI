@@ -6,9 +6,13 @@ import { useRouter } from "next/navigation";
 import { Box, Button, Typography, Container, Tooltip } from "@mui/material";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
+import { Briefcase } from "lucide-react";
+import LawyerAuthModal from "../components/LawyerAuthModal";
+import { useState } from "react";
 
 const LoginPage = () => {
   const router = useRouter();
+  const [openLawyerModal, setOpenLawyerModal] = useState(false);
 
   const handleGoogleLogin = async () => {
     try {
@@ -69,6 +73,25 @@ const LoginPage = () => {
             Sign in with Google
           </Button>
         </motion.div>
+        <motion.div className="mt-4" whileHover={{ scale: 1.05 }}>
+          <Button
+          startIcon={<Briefcase size={22} />}
+            variant="contained"
+            onClick={() => setOpenLawyerModal(true)}
+            sx={{
+              backgroundColor: "lightgreen", // Matching theme green
+              color: "black",
+              padding: "12px 20px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              borderRadius: "8px",
+              textTransform: "none",
+              "&:hover": { backgroundColor: "#388E3C" }, // Slightly darker green on hover
+            }}
+          >
+            Join as a Lawyer
+          </Button>
+        </motion.div>
 
         <motion.div whileHover={{ scale: 1.05 }}>
         <Tooltip title="Chats won't be saved">
@@ -93,6 +116,8 @@ const LoginPage = () => {
         </motion.div>
         
       </motion.div>
+       {/* Lawyer Authentication Modal */}
+       <LawyerAuthModal open={openLawyerModal} onClose={() => setOpenLawyerModal(false)} />
     </Container>
   );
 };
