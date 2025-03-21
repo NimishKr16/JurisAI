@@ -95,7 +95,7 @@ export default function Chat() {
   return (
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
       <div className="mx-auto w-full max-w-2xl py-8 px-6">
-        <div className="mb-20 text-center">
+        <div className="mb-10 text-center -mt-15">
           <Typography variant="h2" fontWeight="bold" gutterBottom>
             <LinearGradient gradient={["to left", "#3F51B5 ,#FFD700"]}>
               JurisAI ⚖️
@@ -147,7 +147,7 @@ export default function Chat() {
           </div>
 
           {/* File Upload */}
-          <div className="flex justify-center">
+          <div className="flex justify-center -mb-4">
             <Tooltip title="Upload Document to Summarize">
               <label className="cursor-pointer bg-gray-800 hover:bg-gray-700 px-5 py-2 rounded-lg text-sm font-medium text-gray-300 transition-all shadow-md">
                 {fileName ? fileName : "Upload Document"}
